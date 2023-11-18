@@ -14,6 +14,14 @@ const PORT = 3000;
 
 app.use(express.json());
 
+app.use((req, res, next) => {
+  req.user = {
+    _id: '65391ffeba5a6a65ced1bc72',
+  };
+
+  next();
+});
+
 app.use(appRouter);
 
 app.listen(PORT, () => {
