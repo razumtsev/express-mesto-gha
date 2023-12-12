@@ -14,9 +14,8 @@ const {
 
 const UserModel = require('../models/user');
 
-const createUser = (req, res) => {
+module.exports.createUser = (req, res) => {
   const userData = req.body;
-  console.log(`Данные из тела запроса: ${userData}`);
   return UserModel.create(userData)
     .then((data) => res.status(HTTP_STATUS_CREATED).send(data))
     .catch((err) => {
@@ -27,15 +26,15 @@ const createUser = (req, res) => {
     });
 };
 
-const getUsers = (req, res) => {
-  UserModel.find()
+module.exports.getUsers = (req, res) => {
+  UserModel.find({})
     .then((users) => res.status(HTTP_STATUS_OK).send(users))
     .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
 };
 
-const getUserById = (req, res) => {
+module.exports.getUserById = (req, res) => {
   const { userId } = req.params;
-  UserModel.findById(userId)
+  return UserModel.findById(userId)
     .then((user) => {
       if (!user) {
         return res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'User not found' });
@@ -50,27 +49,34 @@ const getUserById = (req, res) => {
     });
 };
 
-const updateUserInfo = (req, res) => {
-  UserModel.findByIdAndUpdate(req.user._id)
-    .then((user) => {
-      console.log(user);
-      if (!user) {
-        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'User not found' });
-      }
-      console.log(user.name, user.about);
-      return res.status(HTTP_STATUS_OK).send(user);
-    })
+module.exports.updateUserInfo = (req, res) => {
+  const { name, about } = req.body;
+  return UserModel.findByIdAndUpdate(req.user._id, { name, about }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => res.status(HTTP_STATUS_OK).send(user))
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid ID' });
+      if (err.name === 'ValidationError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
       }
       return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
     });
 };
 
-module.exports = {
-  createUser,
-  getUsers,
-  getUserById,
-  updateUserInfo,
+module.exports.updateUserAvatar = (req, res) => {
+  const { avatar } = req.body;
+  return UserModel.findByIdAndUpdate(req.user._id, { avatar }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => res.status(HTTP_STATUS_OK).send(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
+      }
+      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+    });
 };

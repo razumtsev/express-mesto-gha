@@ -14,7 +14,7 @@ const {
 
 const CardModel = require('../models/card');
 
-const createCard = (req, res) => {
+module.exports.createCard = (req, res) => {
   const cardData = req.body;
   cardData.owner = req.user._id;
   console.log(cardData);
@@ -28,13 +28,13 @@ const createCard = (req, res) => {
     });
 };
 
-const getCards = (req, res) => {
+module.exports.getCards = (req, res) => {
   CardModel.find()
     .then((cards) => res.status(HTTP_STATUS_OK).send(cards))
     .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
 };
 
-const deleteCardById = (req, res) => {
+module.exports.deleteCardById = (req, res) => {
   const { cardId } = req.params;
   CardModel.findByIdAndRemove(cardId)
     .then((card) => {
@@ -46,8 +46,30 @@ const deleteCardById = (req, res) => {
     .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
 };
 
-module.exports = {
-  createCard,
-  getCards,
-  deleteCardById,
+module.exports.setCardLike = (req, res) => {
+  const { cardId } = req.params;
+  console.log(cardId);
+  console.log(req.user._id);
+  return CardModel.findByIdAndUpdate(
+    cardId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true },
+  )
+    .then((card) => res.status(HTTP_STATUS_OK).send(card))
+    .catch((err) => res.send({ message: err.name }))
+    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+};
+
+module.exports.removeCardLike = (req, res) => {
+  const { cardId } = req.params;
+  console.log(cardId);
+  console.log(req.user._id);
+  return CardModel.findByIdAndUpdate(
+    cardId,
+    { $pull: { likes: req.user._id } },
+    { new: true },
+  )
+    .then((card) => res.status(HTTP_STATUS_OK).send(card))
+    .catch((err) => res.send({ message: err.name }))
+    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
 };
