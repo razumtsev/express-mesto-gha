@@ -58,7 +58,7 @@ module.exports.setCardLike = (req, res) => {
     .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
     .catch((err) => {
       if (err.name === 'TypeError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: `Card ${cardId} does not exist` });
+        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: `Card ${cardId} does not exist` });
       }
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
@@ -77,7 +77,7 @@ module.exports.removeCardLike = (req, res) => {
     .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
     .catch((err) => {
       if (err.name === 'TypeError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: `Card ${cardId} does not exist` });
+        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: `Card ${cardId} does not exist` });
       }
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
