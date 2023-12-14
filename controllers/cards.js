@@ -17,7 +17,7 @@ const CardModel = require('../models/card');
 module.exports.createCard = (req, res) => {
   const cardData = req.body;
   cardData.owner = req.user._id;
-  console.log(cardData);
+  // console.log(cardData);
   return CardModel.create(cardData)
     .then((data) => res.status(HTTP_STATUS_CREATED).send(data))
     .catch((err) => {
@@ -38,12 +38,19 @@ module.exports.deleteCardById = (req, res) => {
   const { cardId } = req.params;
   CardModel.findByIdAndRemove(cardId)
     .then((card) => {
+      // console.log(card);
+      console.log(cardId);
       if (!card) {
         return res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'Card not found' });
       }
       return res.status(HTTP_STATUS_OK).send({ message: 'Card Deleted' });
     })
-    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+    .catch((err) => {
+      if (err.name === 'CastError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
+      }
+      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+    });
 };
 
 module.exports.setCardLike = (req, res) => {
