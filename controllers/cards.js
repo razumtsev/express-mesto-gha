@@ -48,28 +48,40 @@ module.exports.deleteCardById = (req, res) => {
 
 module.exports.setCardLike = (req, res) => {
   const { cardId } = req.params;
-  console.log(cardId);
-  console.log(req.user._id);
+  // console.log(cardId);
+  // console.log(req.user._id);
   return CardModel.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => res.status(HTTP_STATUS_OK).send(card))
-    .catch((err) => res.send({ message: err.name }))
-    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+    .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
+    .catch((err) => {
+      if (err.name === 'TypeError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: `Card ${cardId} does not exist` });
+      }
+      if (err.name === 'CastError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
+      }
+      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+    });
 };
 
 module.exports.removeCardLike = (req, res) => {
   const { cardId } = req.params;
-  console.log(cardId);
-  console.log(req.user._id);
   return CardModel.findByIdAndUpdate(
     cardId,
     { $pull: { likes: req.user._id } },
     { new: true },
   )
-    .then((card) => res.status(HTTP_STATUS_OK).send(card))
-    .catch((err) => res.send({ message: err.name }))
-    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+    .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
+    .catch((err) => {
+      if (err.name === 'TypeError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: `Card ${cardId} does not exist` });
+      }
+      if (err.name === 'CastError') {
+        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
+      }
+      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+    });
 };
