@@ -45,7 +45,7 @@ module.exports.deleteCardById = (req, res) => {
       return res.status(HTTP_STATUS_OK).send({ message: 'Card Deleted' });
     })
     .catch((err) => {
-      if (err.name === 'CastError') return setStatusBadRequest(req);
+      if (err.name === 'CastError') return setStatusBadRequest(res);
       return setStatusServerError(res);
     });
 };
