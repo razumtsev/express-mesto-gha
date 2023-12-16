@@ -14,49 +14,44 @@ const {
 
 const CardModel = require('../models/card');
 
+const setStatusNotFound = (res) => res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'Card not found' });
+const setStatusBadRequest = (res) => res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
+const setStatusServerError = (res) => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+
 module.exports.createCard = (req, res) => {
   const cardData = req.body;
   cardData.owner = req.user._id;
-  // console.log(cardData);
   return CardModel.create(cardData)
     .then((data) => res.status(HTTP_STATUS_CREATED).send(data))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
       }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      return setStatusServerError(res);
     });
 };
 
 module.exports.getCards = (req, res) => {
   CardModel.find()
     .then((cards) => res.status(HTTP_STATUS_OK).send(cards))
-    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+    .catch(() => setStatusServerError(res));
 };
 
 module.exports.deleteCardById = (req, res) => {
   const { cardId } = req.params;
   CardModel.findByIdAndRemove(cardId)
     .then((card) => {
-      // console.log(card);
-      console.log(cardId);
-      if (!card) {
-        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'Card not found' });
-      }
+      if (!card) return setStatusNotFound(res);
       return res.status(HTTP_STATUS_OK).send({ message: 'Card Deleted' });
     })
     .catch((err) => {
-      if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
-      }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      if (err.name === 'CastError') return setStatusBadRequest(req);
+      return setStatusServerError(res);
     });
 };
 
 module.exports.setCardLike = (req, res) => {
   const { cardId } = req.params;
-  // console.log(cardId);
-  // console.log(req.user._id);
   return CardModel.findByIdAndUpdate(
     cardId,
     { $addToSet: { likes: req.user._id } },
@@ -64,13 +59,9 @@ module.exports.setCardLike = (req, res) => {
   )
     .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
     .catch((err) => {
-      if (err.name === 'TypeError') {
-        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: `Card ${cardId} does not exist` });
-      }
-      if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
-      }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      if (err.name === 'TypeError') return setStatusNotFound(res);
+      if (err.name === 'CastError') return setStatusBadRequest(res);
+      return setStatusServerError(res);
     });
 };
 
@@ -83,12 +74,8 @@ module.exports.removeCardLike = (req, res) => {
   )
     .then((card) => res.status(HTTP_STATUS_OK).send(card.likes))
     .catch((err) => {
-      if (err.name === 'TypeError') {
-        return res.status(HTTP_STATUS_NOT_FOUND).send({ message: `Card ${cardId} does not exist` });
-      }
-      if (err.name === 'CastError') {
-        return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid card ID' });
-      }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      if (err.name === 'TypeError') return setStatusNotFound(res);
+      if (err.name === 'CastError') return setStatusBadRequest(res);
+      return setStatusServerError(res);
     });
 };

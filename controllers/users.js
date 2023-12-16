@@ -14,6 +14,8 @@ const {
 
 const UserModel = require('../models/user');
 
+const setStatusServerError = (res) => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+
 module.exports.createUser = (req, res) => {
   const userData = req.body;
   return UserModel.create(userData)
@@ -22,14 +24,14 @@ module.exports.createUser = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
       }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      return setStatusServerError(res);
     });
 };
 
 module.exports.getUsers = (req, res) => {
   UserModel.find({})
     .then((users) => res.status(HTTP_STATUS_OK).send(users))
-    .catch(() => res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' }));
+    .catch(() => setStatusServerError(res));
 };
 
 module.exports.getUserById = (req, res) => {
@@ -45,7 +47,7 @@ module.exports.getUserById = (req, res) => {
       if (err.name === 'CastError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: 'Invalid ID' });
       }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      return setStatusServerError(res);
     });
 };
 
@@ -61,7 +63,7 @@ module.exports.updateUserInfo = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
       }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      return setStatusServerError(res);
     });
 };
 
@@ -77,6 +79,6 @@ module.exports.updateUserAvatar = (req, res) => {
       if (err.name === 'ValidationError') {
         return res.status(HTTP_STATUS_BAD_REQUEST).send({ message: err.message });
       }
-      return res.status(HTTP_STATUS_SERVER_ERROR).send({ message: 'Server Error' });
+      return setStatusServerError(res);
     });
 };

@@ -1,16 +1,14 @@
-[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
 # Проект Mesto фронтенд + бэкенд
 
+## _Проектная работа студента Яндекс.Практикум: сервер на Экспрессе_
 
-## Директории
+### Описание.
+Учебный проект, созданный в процессе изучения фреймворка _Express.js_ и базы данных _MongoDB_ в связке с библиотекой _Mongoose_.
 
-`/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
+### Запуск проекта
+npm run start — запускает сервер
+npm run dev — запускает сервер с hot-reload
 
-## Запуск проекта
+ссылка на репозиторий проекта: (https://razumtsev.github.io/express-mesto-gha/)
 
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
+[Илья Разумцев](mailto:razumtsev.il@yandex.ru)
