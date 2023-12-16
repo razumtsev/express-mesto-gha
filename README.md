@@ -4,6 +4,8 @@
 
 ### Описание.
 Учебный проект, созданный в процессе изучения фреймворка _Express.js_ и базы данных _MongoDB_ в связке с библиотекой _Mongoose_.
+Для защиты от повторяющихся запросов (DoS-атака) использован мидлвэр [express-rate-limit](https://express-rate-limit.mintlify.app/overview).
+Также к Проекту подключен [helmet](https://www.npmjs.com/package/helmet#helmet) - для настройки заголовков ответа HTTP.
 
 ### Запуск проекта
 - npm run start — запускает сервер
