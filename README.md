@@ -6,9 +6,9 @@
 Учебный проект, созданный в процессе изучения фреймворка _Express.js_ и базы данных _MongoDB_ в связке с библиотекой _Mongoose_.
 
 ### Запуск проекта
-npm run start — запускает сервер
-npm run dev — запускает сервер с hot-reload
+- npm run start — запускает сервер
+- npm run dev — запускает сервер с hot-reload
 
-ссылка на репозиторий проекта: (https://razumtsev.github.io/express-mesto-gha/)
+ссылка на репозиторий проекта: https://razumtsev.github.io/express-mesto-gha/
 
 [Илья Разумцев](mailto:razumtsev.il@yandex.ru)
