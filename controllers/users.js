@@ -5,7 +5,7 @@ const {
   setStatusNotFound,
   setStatusBadRequest,
   setStatusServerError,
-} = require('./utils');
+} = require('../utils/statusSetter');
 
 module.exports.createUser = (req, res) => {
   const userData = req.body;

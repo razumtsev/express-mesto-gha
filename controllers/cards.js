@@ -5,7 +5,7 @@ const {
   setStatusNotFound,
   setStatusBadRequest,
   setStatusServerError,
-} = require('./utils');
+} = require('../utils/statusSetter');
 
 module.exports.createCard = (req, res) => {
   const cardData = req.body;
