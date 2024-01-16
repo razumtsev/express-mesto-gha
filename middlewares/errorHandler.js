@@ -1,4 +1,5 @@
-module.exports = (err, req, res) => {
+// eslint-disable-next-line
+module.exports = (err, req, res, next) => {
   // console.log('Error Handler is here!');
   // console.log(err.statusCode, err.message);
 

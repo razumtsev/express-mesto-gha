@@ -13,7 +13,6 @@ const {
 } = require('../controllers/users');
 
 router.post('/signup', celebrate(signupSettings), createUser);
-router.post('/signup', createUser);
 router.post('/signin', login);
 
 router.use(auth);
