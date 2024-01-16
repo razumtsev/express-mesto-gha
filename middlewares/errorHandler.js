@@ -1,6 +1,6 @@
-module.exports = (err, req, res, next) => {
-  console.log('Error Handler is here!');
-  console.log(err.statusCode, err.message);
+module.exports = (err, req, res) => {
+  // console.log('Error Handler is here!');
+  // console.log(err.statusCode, err.message);
 
   const { statusCode = 500, message } = err;
 

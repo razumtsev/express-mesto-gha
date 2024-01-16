@@ -12,8 +12,8 @@ const {
   updateUserAvatar,
 } = require('../controllers/users');
 
-// router.post('/signup', celebrate(signupSettings), createUser);
-router.post('/signup', createUser); // Отключил селебрейт с Джои
+router.post('/signup', celebrate(signupSettings), createUser);
+router.post('/signup', createUser);
 router.post('/signin', login);
 
 router.use(auth);

@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const DeniedError = require('../utils/errors/denied');
-const BadRequestError = require('../utils/errors/bad-request');
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -16,10 +15,6 @@ const userSchema = new mongoose.Schema({
     maxlength: 30,
     default: 'Исследователь',
   },
-  // avatar: {
-  //   type: String,
-  //   default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-  // },
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
