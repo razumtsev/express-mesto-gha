@@ -8,6 +8,35 @@ const BadRequestError = require('../utils/errors/bad-request');
 const ConflictError = require('../utils/errors/conflict');
 const DeniedError = require('../utils/errors/denied');
 
+// module.exports.createUser = (req, res, next) => {
+//   const {
+//     name,
+//     about,
+//     avatar,
+//     email,
+//     password,
+//   } = req.body;
+//   return bcrypt.hash(password, 10)
+//     .then((hash) => UserModel.create({
+//       name,
+//       about,
+//       avatar,
+//       email,
+//       password: hash,
+//     }))
+//     .catch((err) => {
+//       // console.log('this is error:', err);
+//       console.log('this is error code:', err.code);
+//       if (err.code === 11000) throw new ConflictError('This email is already used');
+//       // if (err.code === undefined) throw new BadRequestError('Invalid avatar link');
+//       return next(err);
+//     })
+//     .then((data) => {
+//       setStatusCreated(res, data);
+//     })
+//     .catch(next);
+// };
+
 module.exports.createUser = (req, res, next) => {
   const {
     name,
@@ -25,11 +54,11 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .catch((err) => {
-      // console.log('this is error:', err);
+      console.log('this is error:', err);
+      // console.log('this is error:', err.errors.name.properties.message);
       // console.log('this is error code:', err.code);
       if (err.code === 11000) throw new ConflictError('This email is already used');
-      if (err.code === undefined) throw new BadRequestError('Invalid avatar link');
-      return next(err);
+      throw new NotFoundError();
     })
     .then((data) => {
       setStatusCreated(res, data);
