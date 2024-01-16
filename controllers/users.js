@@ -58,7 +58,7 @@ module.exports.createUser = (req, res, next) => {
       // console.log('this is error:', err.errors.name.properties.message);
       // console.log('this is error code:', err.code);
       if (err.code === 11000) throw new ConflictError('This email is already used');
-      throw new NotFoundError();
+      throw new BadRequestError();
     })
     .then((data) => {
       setStatusCreated(res, data);
