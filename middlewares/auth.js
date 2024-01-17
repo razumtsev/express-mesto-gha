@@ -5,7 +5,7 @@ const DeniedError = require('../utils/errors/denied');
 module.exports = (req, res, next) => {
   const { authorization } = req.headers;
 
-  if (!authorization || !authorization.startsWith('Bearer ')) throw new DeniedError('Authorization required');
+  if (!authorization || !authorization.startsWith('Bearer ')) throw new DeniedError();
   const token = authorization.replace('Bearer ', '');
 
   let payload;
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, key);
   } catch (err) {
-    throw new DeniedError('Authorization required');
+    throw new DeniedError();
   }
 
   req.user = payload;

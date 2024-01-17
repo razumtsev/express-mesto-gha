@@ -1,6 +1,6 @@
 const router = require('express').Router();
-// const { celebrate } = require('celebrate');
-// const { signupSettings } = require('../utils/joiSettings');
+const { celebrate } = require('celebrate');
+const { signupValidation, userIdValidation } = require('../utils/joiSettings');
 const auth = require('../middlewares/auth');
 const {
   createUser,
@@ -12,14 +12,13 @@ const {
   updateUserAvatar,
 } = require('../controllers/users');
 
-router.post('/signup', createUser);
-// router.post('/signup', celebrate(signupSettings), createUser);
+router.post('/signup', celebrate(signupValidation), createUser);
 router.post('/signin', login);
 
 router.use(auth);
 router.get('/', getUsers);
 router.get('/me', getCurrentUser);
-router.get('/:userId', getUserById);
+router.get('/:userId', celebrate(userIdValidation), getUserById);
 router.patch('/me', updateUserInfo);
 router.patch('/me/avatar', updateUserAvatar);
 
