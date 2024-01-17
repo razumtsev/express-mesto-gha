@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const { rateLimit } = require('express-rate-limit');
 const helmet = require('helmet');
-const { errors } = require('celebrate');
+// const { errors } = require('celebrate');
 const appRouter = require('./routes');
 const rateLimitSettings = require('./utils/rateLimitSettings');
 const errorHandler = require('./middlewares/errorHandler');
@@ -25,7 +25,7 @@ app.use(helmet());
 
 app.use(appRouter);
 
-app.use(errors());
+// app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {

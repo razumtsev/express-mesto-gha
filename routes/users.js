@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const { celebrate } = require('celebrate');
-const { signupSettings } = require('../utils/joiSettings');
+// const { celebrate } = require('celebrate');
+// const { signupSettings } = require('../utils/joiSettings');
 const auth = require('../middlewares/auth');
 const {
   createUser,
@@ -12,7 +12,8 @@ const {
   updateUserAvatar,
 } = require('../controllers/users');
 
-router.post('/signup', celebrate(signupSettings), createUser);
+router.post('/signup', createUser);
+// router.post('/signup', celebrate(signupSettings), createUser);
 router.post('/signin', login);
 
 router.use(auth);
