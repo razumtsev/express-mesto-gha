@@ -7,6 +7,12 @@ const appRouter = require('./routes');
 const rateLimitSettings = require('./utils/rateLimitSettings');
 const errorHandler = require('./middlewares/errorHandler');
 
+// mongoose.connect('mongodb://localhost:27017/mestodb', {
+//   useNewUrlParser: true,
+// }).then(() => {
+//   console.log('Connected to mestodb');
+// });
+
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 }).then(() => {
