@@ -29,7 +29,7 @@ module.exports.deleteCardById = (req, res, next) => {
     .then((card) => {
       if (!card) throw new NotFoundError('Card not found');
       const cardOwnerId = card.owner.toString();
-      if (cardOwnerId !== req.user._id) throw new DeniedError('Denied');
+      if (cardOwnerId !== req.user._id) throw new DeniedError('Authorization required');
       return CardModel.findByIdAndRemove(cardId)
         .then(() => res.send({ message: 'Card Deleted' }))
         .catch(next);
