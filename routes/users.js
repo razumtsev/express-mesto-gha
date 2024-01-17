@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { celebrate, Joi } = require('celebrate');
+const { celebrate } = require('celebrate');
 const { signupValidation, userIdValidation } = require('../utils/joiSettings');
 const auth = require('../middlewares/auth');
 const {
