@@ -4,8 +4,9 @@ module.exports.signupValidation = {
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
-    email: Joi.string().email(),
-    password: Joi.string(),
+    avatar: Joi.string().pattern(/^https?:\/\/[w{3}.]?[\w./-]{5,}/i),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
   }).unknown(true),
 };
 
