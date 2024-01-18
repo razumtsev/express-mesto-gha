@@ -10,6 +10,13 @@ module.exports.signupValidation = {
   }).unknown(true),
 };
 
+module.exports.signinValidation = {
+  body: Joi.object().keys({
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+  }),
+};
+
 module.exports.userIdValidation = {
   params: Joi.object().keys({
     userId: Joi.string().length(24),

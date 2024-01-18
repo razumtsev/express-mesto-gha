@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 // const validator = require('validator');
-const { setStatusCreated } = require('../utils/statusSetter');
+const { HTTP_STATUS_CREATED } = require('http2').constants;
 const { getJwtToken } = require('../utils/jwt');
 const UserModel = require('../models/user');
 const NotFoundError = require('../utils/errors/not-found');
@@ -54,13 +54,17 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .catch((err) => {
-      // console.log('this is error:', err);
-      // console.log('this is error code:', err.code);
       if (err.code === 11000) throw new ConflictError('This email is already used');
       throw new BadRequestError();
     })
-    .then((data) => {
-      setStatusCreated(res, data);
+    .then((user) => {
+      res.status(HTTP_STATUS_CREATED).send({
+        user: user.name,
+        about: user.about,
+        avatar: user.avatar,
+        email: user.email,
+        _id: user._id,
+      });
     })
     .catch(next);
 };
