@@ -22,3 +22,16 @@ module.exports.userIdValidation = {
     userId: Joi.string().length(24),
   }),
 };
+
+module.exports.userInfoValidation = {
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30),
+  }),
+};
+
+module.exports.avatarValidation = {
+  body: Joi.object().keys({
+    avatar: Joi.string().pattern(/^https?:\/\/[w{3}.]?[\w./-]{5,}/i),
+  }),
+};

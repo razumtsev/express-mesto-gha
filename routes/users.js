@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate } = require('celebrate');
-const { userIdValidation } = require('../utils/joiSettings');
+const { userIdValidation, userInfoValidation, avatarValidation } = require('../utils/joiSettings');
 const {
   getUsers,
   getCurrentUser,
@@ -12,7 +12,7 @@ const {
 router.get('/', getUsers);
 router.get('/me', getCurrentUser);
 router.get('/:userId', celebrate(userIdValidation), getUserById);
-router.patch('/me', updateUserInfo);
-router.patch('/me/avatar', updateUserAvatar);
+router.patch('/me', celebrate(userInfoValidation), updateUserInfo);
+router.patch('/me/avatar', celebrate(avatarValidation), updateUserAvatar);
 
 module.exports = router;
