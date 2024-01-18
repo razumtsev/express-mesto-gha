@@ -44,3 +44,9 @@ module.exports.createCardValidation = {
     link: Joi.string().required().pattern(httpLinkPattern),
   }),
 };
+
+module.exports.cardIdValidation = {
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24),
+  }),
+};

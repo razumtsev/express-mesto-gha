@@ -1,7 +1,7 @@
 const CardModel = require('../models/card');
 const BadRequestError = require('../utils/errors/bad-request');
 const DeniedError = require('../utils/errors/denied');
-// const ForbiddenError = require('../utils/errors/forbidden');
+const ForbiddenError = require('../utils/errors/forbidden');
 const NotFoundError = require('../utils/errors/not-found');
 const { setStatusCreated } = require('../utils/statusSetter');
 
@@ -29,7 +29,7 @@ module.exports.deleteCardById = (req, res, next) => {
     .then((card) => {
       if (!card) throw new NotFoundError('Card not found');
       const cardOwnerId = card.owner.toString();
-      if (cardOwnerId !== req.user._id) throw new DeniedError('Authorization required');
+      if (cardOwnerId !== req.user._id) throw new ForbiddenError();
       return CardModel.findByIdAndRemove(cardId)
         .then(() => res.send({ message: 'Card Deleted' }))
         .catch(next);
