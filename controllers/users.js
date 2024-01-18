@@ -75,7 +75,7 @@ module.exports.login = (req, res, next) => {
   return UserModel.findUserByCredentials(email, password)
     .then((user) => {
       const token = getJwtToken(user._id);
-      return res.send(token);
+      return res.send({ token });
     })
     .catch(next);
 };
