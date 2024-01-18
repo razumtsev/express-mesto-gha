@@ -26,9 +26,9 @@
 - PATCH /users/me/avater - редактирование ссылки на аватар текущего пользователя
 - POST /cards - создание новой карточки
 - GET /cards - получение списка всех карточек
-- DELETE /cards/:cardID - удаление карточки по ID
-- PUT /cards/:cardID/likes - постановка лайка
-- DELETE /cards/:cardID/likes - удаление лайка
+- DELETE /cards/:cardId - удаление карточки по ID
+- PUT /cards/:cardId/likes - постановка лайка
+- DELETE /cards/:cardId/likes - удаление лайка
 
 ссылка на репозиторий проекта: https://razumtsev.github.io/express-mesto-gha/
 
