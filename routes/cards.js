@@ -1,4 +1,6 @@
 const router = require('express').Router();
+const { celebrate } = require('celebrate');
+const { createCardValidation } = require('../utils/joiSettings');
 const {
   createCard,
   getCards,
@@ -7,7 +9,7 @@ const {
   removeCardLike,
 } = require('../controllers/cards');
 
-router.post('/', createCard);
+router.post('/', celebrate(createCardValidation), createCard);
 router.get('/', getCards);
 router.delete('/:cardId', deleteCardById);
 router.put('/:cardId/likes', setCardLike);
