@@ -1,6 +1,5 @@
 const CardModel = require('../models/card');
 const BadRequestError = require('../utils/errors/bad-request');
-const DeniedError = require('../utils/errors/denied');
 const ForbiddenError = require('../utils/errors/forbidden');
 const NotFoundError = require('../utils/errors/not-found');
 const { setStatusCreated } = require('../utils/statusSetter');

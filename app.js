@@ -10,6 +10,7 @@ const errorHandler = require('./middlewares/errorHandler');
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
   useNewUrlParser: true,
 }).then(() => {
+  // eslint-disable-next-line
   console.log('Connected to mestodb');
 });
 
@@ -29,5 +30,6 @@ app.use(errors());
 app.use(errorHandler);
 
 app.listen(PORT, () => {
+  // eslint-disable-next-line
   console.log(`app is listening on port ${PORT}`);
 });
