@@ -1,8 +1,7 @@
 class BadRequestError extends Error {
-  constructor(message) {
+  constructor(message = 'Incorrect data sent') {
     super(message);
     this.statusCode = 400;
-    this.message = message || 'Incorrect data sent';
   }
 }
 

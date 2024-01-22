@@ -29,7 +29,7 @@ module.exports.deleteCardById = (req, res, next) => {
       if (!card) throw new NotFoundError('Card not found');
       const cardOwnerId = card.owner.toString();
       if (cardOwnerId !== req.user._id) throw new ForbiddenError();
-      return CardModel.findByIdAndRemove(cardId)
+      return CardModel.deleteOne(card)
         .then(() => res.send({ message: 'Card Deleted' }))
         .catch(next);
     })

@@ -1,3 +1,6 @@
+require('dotenv').config();
+// console.log(process.env);
+
 const express = require('express');
 const mongoose = require('mongoose');
 const { rateLimit } = require('express-rate-limit');
@@ -7,15 +10,19 @@ const appRouter = require('./routes');
 const rateLimitSettings = require('./utils/rateLimitSettings');
 const errorHandler = require('./middlewares/errorHandler');
 
-mongoose.connect('mongodb://127.0.0.1:27017/mestodb', {
+const {
+  port,
+  dataBaseName,
+} = require('./config');
+
+mongoose.connect(`mongodb://127.0.0.1:27017/${dataBaseName}`, {
   useNewUrlParser: true,
 }).then(() => {
   // eslint-disable-next-line
-  console.log('Connected to mestodb');
+  console.log(`Connected to ${dataBaseName}`);
 });
 
 const app = express();
-const { PORT = 3000 } = process.env;
 
 const limiter = rateLimit(rateLimitSettings);
 
@@ -29,7 +36,7 @@ app.use(appRouter);
 app.use(errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {
+app.listen(port, () => {
   // eslint-disable-next-line
-  console.log(`app is listening on port ${PORT}`);
+  console.log(`app is listening on port ${port}`);
 });

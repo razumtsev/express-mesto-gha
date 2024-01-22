@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 // const validator = require('validator');
 const { HTTP_STATUS_CREATED } = require('http2').constants;
@@ -6,36 +7,6 @@ const UserModel = require('../models/user');
 const NotFoundError = require('../utils/errors/not-found');
 const BadRequestError = require('../utils/errors/bad-request');
 const ConflictError = require('../utils/errors/conflict');
-const DeniedError = require('../utils/errors/denied');
-
-// module.exports.createUser = (req, res, next) => {
-//   const {
-//     name,
-//     about,
-//     avatar,
-//     email,
-//     password,
-//   } = req.body;
-//   return bcrypt.hash(password, 10)
-//     .then((hash) => UserModel.create({
-//       name,
-//       about,
-//       avatar,
-//       email,
-//       password: hash,
-//     }))
-//     .catch((err) => {
-//       // console.log('this is error:', err);
-//       console.log('this is error code:', err.code);
-//       if (err.code === 11000) throw new ConflictError('This email is already used');
-//       // if (err.code === undefined) throw new BadRequestError('Invalid avatar link');
-//       return next(err);
-//     })
-//     .then((data) => {
-//       setStatusCreated(res, data);
-//     })
-//     .catch(next);
-// };
 
 module.exports.createUser = (req, res, next) => {
   const {
@@ -54,8 +25,15 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .catch((err) => {
-      if (err.code === 11000) throw new ConflictError('This email is already used');
-      throw new BadRequestError();
+      // console.log('this is an error:', mongoose.Error);
+      if (err.code === 11000) throw new ConflictError();
+      if (err instanceof mongoose.Error.ValidationError) {
+        const errMessage = Object.values(err.errors)
+          .map((error) => error.message)
+          .join('; ');
+        next(new BadRequestError(errMessage));
+      }
+      return next(err);
     })
     .then((user) => {
       res.status(HTTP_STATUS_CREATED).send({
@@ -71,7 +49,6 @@ module.exports.createUser = (req, res, next) => {
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
-  if (!email || !password) throw new DeniedError('Invalid login or password');
   return UserModel.findUserByCredentials(email, password)
     .then((user) => {
       const token = getJwtToken(user._id);
@@ -91,10 +68,6 @@ module.exports.getCurrentUser = (req, res, next) => {
     .then((user) => {
       if (!user) throw new NotFoundError('User is not found');
       return res.send(user);
-    })
-    .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError();
-      return next(err);
     })
     .catch(next);
 };

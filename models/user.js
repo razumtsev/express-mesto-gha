@@ -1,28 +1,32 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const DeniedError = require('../utils/errors/denied');
+const {
+  httpLinkPattern,
+  defaultUserName,
+  defaultUserAbout,
+  defaultUserAvatar,
+} = require('../config');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Жак-Ив Кусто',
+    default: defaultUserName,
   },
   about: {
     type: String,
     minlength: 2,
     maxlength: 30,
-    default: 'Исследователь',
+    default: defaultUserAbout,
   },
   avatar: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    default: defaultUserAvatar,
     validate: {
-      validator: (v) => {
-        const regex = /^https?:\/\/[w{3}.]?[\w./-]{5,}/i;
-        return regex.test(v);
-      },
+      validator: (v) => (httpLinkPattern).test(v),
+      message: 'url validation failed',
     },
   },
   email: {

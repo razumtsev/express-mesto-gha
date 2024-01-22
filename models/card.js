@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const httpLinkPattern = require('../utils/regURL');
 
 const { ObjectId } = mongoose.Schema.Types;
 
@@ -11,6 +12,9 @@ const cardSchema = new mongoose.Schema({
   },
   link: {
     type: String,
+    validate: {
+      validator: (v) => httpLinkPattern.test(v),
+    },
     required: true,
   },
   owner: {
@@ -18,13 +22,14 @@ const cardSchema = new mongoose.Schema({
     ref: 'user',
     required: true,
   },
-  likes: {
-    type: Array,
+  likes: [{
+    type: ObjectId,
+    ref: 'user',
     default: [],
-  },
+  }],
   createdAt: {
     type: Date,
-    default: Date.now(),
+    default: Date.now,
   },
 });
 

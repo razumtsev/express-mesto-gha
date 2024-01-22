@@ -1,8 +1,7 @@
 class DeniedError extends Error {
-  constructor(message) {
+  constructor(message = 'Authorization required') {
     super(message);
     this.statusCode = 401;
-    this.message = message || 'Authorization required';
   }
 }
 

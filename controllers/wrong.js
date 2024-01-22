@@ -1,3 +1,6 @@
-const { HTTP_STATUS_NOT_FOUND } = require('http2').constants;
+const NotFoundError = require('../utils/errors/not-found');
 
-module.exports.wrongPath = (req, res) => res.status(HTTP_STATUS_NOT_FOUND).send({ message: 'Wrong Path' });
+module.exports.wrongPath = (req, res, next) => {
+  const err = new NotFoundError('Wrong path');
+  next(err);
+};

@@ -1,5 +1,5 @@
 class ConflictError extends Error {
-  constructor(message) {
+  constructor(message = 'This email is already used') {
     super(message);
     this.statusCode = 409;
   }
