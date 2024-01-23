@@ -1,6 +1,6 @@
 const { Joi } = require('celebrate');
 
-const httpLinkPattern = require('./regURL');
+const { httpLinkPattern } = require('../config');
 
 module.exports.signupValidation = {
   body: Joi.object().keys({

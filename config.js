@@ -1,5 +1,5 @@
 const port = process.env.PORT || 3000;
-const dataBaseName = process.env.DB_NAME || 'mestodb';
+const databaseName = process.env.DB_NAME || 'mestodb';
 
 const httpLinkPattern = /^https?:\/\/[w{3}.]?[\w./-]{5,}/i;
 const defaultUserName = 'Жак-Ив Кусто';
@@ -8,7 +8,7 @@ const defaultUserAvatar = 'https://pictures.s3.yandex.net/resources/jacques-cous
 
 module.exports = {
   port,
-  dataBaseName,
+  databaseName,
   httpLinkPattern,
   defaultUserName,
   defaultUserAbout,

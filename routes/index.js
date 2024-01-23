@@ -7,9 +7,10 @@ const cardsRouter = require('./cards');
 const wrongPathRouter = require('./wrong');
 const auth = require('../middlewares/auth');
 
+// router.post('/signup', createUser);
+// router.post('/signin', login);
 router.post('/signup', celebrate(signupValidation), createUser);
 router.post('/signin', celebrate(signinValidation), login);
-// router.use(auth);
 router.use('/users', auth, usersRouter);
 router.use('/cards', auth, cardsRouter);
 router.use('/*', wrongPathRouter);

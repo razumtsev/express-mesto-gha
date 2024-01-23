@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const httpLinkPattern = require('../utils/regURL');
+const { httpLinkPattern } = require('../config');
 
 const { ObjectId } = mongoose.Schema.Types;
 

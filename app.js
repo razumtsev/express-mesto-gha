@@ -9,17 +9,16 @@ const { errors } = require('celebrate');
 const appRouter = require('./routes');
 const rateLimitSettings = require('./utils/rateLimitSettings');
 const errorHandler = require('./middlewares/errorHandler');
-
 const {
   port,
-  dataBaseName,
+  databaseName,
 } = require('./config');
 
-mongoose.connect(`mongodb://127.0.0.1:27017/${dataBaseName}`, {
+mongoose.connect(`mongodb://127.0.0.1:27017/${databaseName}`, {
   useNewUrlParser: true,
 }).then(() => {
   // eslint-disable-next-line
-  console.log(`Connected to ${dataBaseName}`);
+  console.log(`Connected to ${databaseName}`);
 });
 
 const app = express();

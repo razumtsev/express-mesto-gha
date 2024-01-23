@@ -25,12 +25,14 @@ module.exports.createUser = (req, res, next) => {
       password: hash,
     }))
     .catch((err) => {
-      // console.log('this is an error:', mongoose.Error);
       if (err.code === 11000) throw new ConflictError();
       if (err instanceof mongoose.Error.ValidationError) {
+        // console.log('this is an whole error body ===> ', err);
+        // console.log('this is an error object ===>', err.errors);
         const errMessage = Object.values(err.errors)
           .map((error) => error.message)
-          .join('; ');
+          .join(', ');
+        // console.log('this is a final string ===>', errMessage);
         next(new BadRequestError(errMessage));
       }
       return next(err);

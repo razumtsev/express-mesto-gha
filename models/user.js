@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     default: defaultUserAvatar,
     validate: {
       validator: (v) => (httpLinkPattern).test(v),
-      message: 'url validation failed',
+      // message: 'url validation failed',
     },
   },
   email: {
