@@ -29,9 +29,7 @@ module.exports.createUser = (req, res, next) => {
       if (err instanceof mongoose.Error.ValidationError) {
         // console.log('this is an whole error body ===> ', err);
         // console.log('this is an error object ===>', err.errors);
-        const errMessage = Object.values(err.errors)
-          .map((error) => error.message)
-          .join(', ');
+        const errMessage = Object.values(err.errors).map((item) => item.message).join(', ');
         // console.log('this is a final string ===>', errMessage);
         next(new BadRequestError(errMessage));
       }
