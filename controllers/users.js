@@ -63,8 +63,36 @@ module.exports.getUsers = (req, res, next) => {
     .catch(next);
 };
 
+const findById = (id) => UserModel.findById(id);
+
+// let findById = (id) => UserModel.findById(id);
+
+// function findByIdcachingDecorator(func) {
+//   let cache = new Map();
+
+//   return function (x) {
+//     if (cache.has(x)) {
+//       console.log('cache has x');
+//       console.log(x);
+//       console.log(cache.get(x));
+//       return cache.get(x);
+//     }
+
+//     let result = func(x);
+//     console.log('cache has no x');
+//     console.log(x);
+//     console.log(result);
+
+//     cache.set(x, result);
+//     return result;
+//   };
+// }
+
+// findById = findByIdcachingDecorator(findById);
+
 module.exports.getCurrentUser = (req, res, next) => {
-  UserModel.findById(req.user._id)
+  findById(req.user._id)
+  // UserModel.findById(req.user._id)
     .then((user) => {
       if (!user) throw new NotFoundError('User is not found');
       return res.send(user);
@@ -73,8 +101,9 @@ module.exports.getCurrentUser = (req, res, next) => {
 };
 
 module.exports.getUserById = (req, res, next) => {
-  const { userId } = req.params;
-  return UserModel.findById(userId)
+  findById(req.params.userId)
+  // const { userId } = req.params;
+  // return UserModel.findById(userId)
     .then((user) => {
       if (!user) throw new NotFoundError('User is not found');
       return res.send(user);
