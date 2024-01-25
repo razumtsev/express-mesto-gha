@@ -10,7 +10,7 @@ module.exports.createCard = (req, res, next) => {
   return CardModel.create(cardData)
     .then((data) => setStatusCreated(res, data))
     .catch((err) => {
-      if (err.name === 'ValidationError') throw new BadRequestError();
+      if (err.name === 'ValidationError') return next(new BadRequestError());
       return next(err);
     })
     .catch(next);
@@ -26,15 +26,15 @@ module.exports.deleteCardById = (req, res, next) => {
   const { cardId } = req.params;
   CardModel.findById(cardId)
     .then((card) => {
-      if (!card) throw new NotFoundError('Card not found');
+      if (!card) return next(new NotFoundError('Card not found'));
       const cardOwnerId = card.owner.toString();
-      if (cardOwnerId !== req.user._id) throw new ForbiddenError();
+      if (cardOwnerId !== req.user._id) return next(new ForbiddenError());
       return CardModel.deleteOne(card)
         .then(() => res.send({ message: 'Card Deleted' }))
         .catch(next);
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError();
+      if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
     })
     .catch(next);
@@ -48,11 +48,11 @@ module.exports.setCardLike = (req, res, next) => {
     { new: true },
   )
     .then((card) => {
-      if (!card) throw new NotFoundError('Card not found');
+      if (!card) return next(new NotFoundError('Card not found'));
       return res.send(card.likes);
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError();
+      if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
     })
     .catch(next);
@@ -66,11 +66,11 @@ module.exports.removeCardLike = (req, res, next) => {
     { new: true },
   )
     .then((card) => {
-      if (!card) throw new NotFoundError('Card not found');
+      if (!card) return next(new NotFoundError('Card not found'));
       return res.send(card.likes);
     })
     .catch((err) => {
-      if (err.name === 'CastError') throw new BadRequestError();
+      if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
     })
     .catch(next);
