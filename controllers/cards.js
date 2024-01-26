@@ -12,8 +12,7 @@ module.exports.createCard = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.getCards = (req, res, next) => {
@@ -36,8 +35,7 @@ module.exports.deleteCardById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.setCardLike = (req, res, next) => {
@@ -54,8 +52,7 @@ module.exports.setCardLike = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.removeCardLike = (req, res, next) => {
@@ -72,6 +69,5 @@ module.exports.removeCardLike = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };

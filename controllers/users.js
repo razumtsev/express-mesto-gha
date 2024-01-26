@@ -43,8 +43,7 @@ module.exports.createUser = (req, res, next) => {
         return next(new BadRequestError(errMessage));
       }
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.login = (req, res, next) => {
@@ -111,8 +110,7 @@ module.exports.getUserById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.updateUserInfo = (req, res, next) => {
@@ -126,8 +124,7 @@ module.exports.updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
 
 module.exports.updateUserAvatar = (req, res, next) => {
@@ -141,6 +138,5 @@ module.exports.updateUserAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') return next(new BadRequestError());
       return next(err);
-    })
-    .catch(next);
+    });
 };
